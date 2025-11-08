@@ -64,6 +64,7 @@
 ### 🧰 Scripts & Utilidades (100% Completo)
 - ✅ gerar-secrets.ps1 - Gera JWT secrets seguros
 - ✅ validar-deploy.ps1 - Valida configuração
+- ✅ publicar-github.ps1 - Script interativo para publicar no GitHub
 - ✅ npm run docker:up/down - Gerencia containers
 - ✅ npm run start:prod - Produção com migrations
 
@@ -117,7 +118,18 @@ mangobeat-ai-backend/
 
 ### 1️⃣ Publicar no GitHub (5 minutos)
 
-**Opção A - GitHub Desktop (Fácil)**
+**Opção A - Script Automático (MAIS FÁCIL)**
+```powershell
+# Execute o script interativo:
+.\publicar-github.ps1
+
+# O script vai:
+# 1. Pedir seu username do GitHub
+# 2. Configurar o remote automaticamente
+# 3. Fazer push para o GitHub
+```
+
+**Opção B - GitHub Desktop**
 ```
 1. Abra GitHub Desktop
 2. File → Add Local Repository
@@ -128,9 +140,10 @@ mangobeat-ai-backend/
 7. Clique em "Publish repository"
 ```
 
-**Opção B - Linha de Comando**
+**Opção C - Linha de Comando Manual**
 ```powershell
 # 1. Crie o repositório no GitHub.com primeiro
+#    👉 https://github.com/new
 # 2. Execute:
 git remote add origin https://github.com/SEU-USUARIO/mangobeat-ai-backend.git
 git branch -M main
