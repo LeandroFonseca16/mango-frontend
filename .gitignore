@@ -6,18 +6,24 @@ yarn-error.log*
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+.pnp
+.pnp.js
 
 # Environment variables
 .env
 .env.local
 .env.*.local
 .env.production
+.env.production.local
 token.txt
+secrets-render.txt
 
 # Build outputs
 dist/
 build/
 *.tsbuildinfo
+.next/
+out/
 
 # Prisma
 /generated/prisma
@@ -29,24 +35,58 @@ build/
 *.swo
 *~
 .DS_Store
+*.sublime-project
+*.sublime-workspace
+.history/
 
 # Logs
 logs/
 *.log
 npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
 
 # Testing
 coverage/
 .nyc_output/
+*.lcov
+.jest-cache/
+test-results/
+playwright-report/
 
 # Temporary files
 tmp/
 temp/
 *.tmp
+*.temp
+.cache/
 
 # OS
 Thumbs.db
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Docker volumes & data
+docker-volumes/
+postgres-data/
+redis-data/
+
+# Media uploads (production)
+uploads/
+public/uploads/
+storage/
+
+# Generated files
+*.generated.ts
+generated-types/
+
+# Backup files
+*.backup
+*.bak
+*.old
+
 
 # Docker
 .dockerignore

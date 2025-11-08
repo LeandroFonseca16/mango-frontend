@@ -1,0 +1,98 @@
+name: 🐛 Bug Report
+description: Reportar um bug ou comportamento inesperado
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar um bug! Por favor, preencha os campos abaixo com o máximo de detalhes possível.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 📝 Descrição do Bug
+      description: Descreva o bug de forma clara e concisa
+      placeholder: O que aconteceu?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: ✅ Comportamento Esperado
+      description: O que você esperava que acontecesse?
+      placeholder: Deveria...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: ❌ Comportamento Atual
+      description: O que realmente aconteceu?
+      placeholder: Mas aconteceu...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 🔄 Passos para Reproduzir
+      description: Como reproduzir o bug?
+      placeholder: |
+        1. Vá para '...'
+        2. Clique em '...'
+        3. Execute '...'
+        4. Veja o erro
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 📋 Logs/Erros
+      description: Cole aqui os logs relevantes ou mensagens de erro
+      render: shell
+      placeholder: |
+        Erro no terminal ou browser console
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: 🌍 Ambiente
+      description: Onde o bug ocorreu?
+      options:
+        - Desenvolvimento local
+        - Produção (Render.com)
+        - Produção (Railway)
+        - Produção (outro)
+        - Testes
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 📦 Versão
+      description: Qual versão do projeto está usando?
+      placeholder: ex. v1.0.0 ou commit hash
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 📌 Contexto Adicional
+      description: Qualquer outra informação relevante
+      placeholder: Sistema operacional, versão do Node, variáveis de ambiente, etc.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Checklist
+      options:
+        - label: Verifiquei que não existe uma issue similar aberta
+          required: true
+        - label: Tentei reproduzir em ambiente limpo
+          required: false
+        - label: Li a documentação relacionada
+          required: false

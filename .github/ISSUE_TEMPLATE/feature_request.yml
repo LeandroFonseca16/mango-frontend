@@ -1,0 +1,105 @@
+name: ✨ Feature Request
+description: Sugerir uma nova funcionalidade
+title: "[FEATURE] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por sugerir uma nova funcionalidade! Por favor, descreva sua ideia em detalhes.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 🎯 Qual problema isso resolve?
+      description: Descreva o problema ou necessidade que motivou esta feature
+      placeholder: Eu sempre tenho dificuldade em...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 Solução Proposta
+      description: Descreva como você imagina que esta feature funcionaria
+      placeholder: Seria ótimo se pudéssemos...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 Alternativas Consideradas
+      description: Você pensou em outras formas de resolver isso?
+      placeholder: Também pensei em...
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: 📝 Exemplos de Uso
+      description: Mostre como a feature seria usada
+      placeholder: |
+        ```typescript
+        // Exemplo de código
+        const track = await generateTrack({
+          prompt: 'phonk agressivo',
+          duration: 30
+        });
+        ```
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 🎨 Prioridade (na sua opinião)
+      options:
+        - Baixa
+        - Média
+        - Alta
+        - Crítica
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: 📦 Área do Sistema
+      description: Qual módulo seria afetado?
+      options:
+        - API/Controllers
+        - Use Cases
+        - Database/Repositories
+        - Queue/Jobs
+        - Authentication
+        - Frontend Integration
+        - Documentation
+        - DevOps/Deploy
+        - Outro
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 📌 Contexto Adicional
+      description: Qualquer informação extra relevante
+      placeholder: Links, referências, screenshots, etc.
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: 🤝 Contribuição
+      options:
+        - label: Estou disposto(a) a implementar esta feature
+          required: false
+        - label: Estou disposto(a) a ajudar nos testes
+          required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Checklist
+      options:
+        - label: Verifiquei que não existe uma feature request similar
+          required: true
+        - label: Esta feature está alinhada com os objetivos do projeto
+          required: false
