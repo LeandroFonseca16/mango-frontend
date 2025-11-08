@@ -29,7 +29,6 @@ out/
 /generated/prisma
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo

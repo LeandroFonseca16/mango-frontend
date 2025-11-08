@@ -1,0 +1,48 @@
+{
+  "recommendations": [
+    // TypeScript & JavaScript
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    
+    // Database & Prisma
+    "prisma.prisma",
+    "prisma.prisma-insider",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
+    
+    // Testing
+    "orta.vscode-jest",
+    "firsttris.vscode-jest-runner",
+    
+    // Docker
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers",
+    
+    // Git
+    "eamodio.gitlens",
+    "donjayamanne.githistory",
+    
+    // REST API Testing
+    "humao.rest-client",
+    "rangav.vscode-thunder-client",
+    
+    // Markdown
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    
+    // Utilities
+    "christian-kohler.path-intellisense",
+    "visualstudioexptteam.vscodeintellicode",
+    "gruntfuggly.todo-tree",
+    "usernamehw.errorlens",
+    
+    // PowerShell (Windows)
+    "ms-vscode.powershell",
+    
+    // YAML
+    "redhat.vscode-yaml",
+    
+    // EditorConfig
+    "editorconfig.editorconfig"
+  ]
+}

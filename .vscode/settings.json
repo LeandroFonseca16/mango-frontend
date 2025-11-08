@@ -1,0 +1,56 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "files.trimTrailingWhitespace": false
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/generated": true,
+    "**/.git": true,
+    "**/coverage": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/generated/**": true,
+    "**/.git/objects/**": true,
+    "**/coverage/**": true
+  },
+  "jest.autoRun": "off",
+  "jest.showCoverageOnLoad": false,
+  "prisma.fileWatcher": true,
+  "prisma.prismaSchemaPath": "prisma/schema.prisma",
+  "git.ignoreLimitWarning": true,
+  "terminal.integrated.env.windows": {},
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.spec.ts, ${capture}.test.ts",
+    "*.js": "${capture}.js.map, ${capture}.min.js",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
+    ".env": ".env.*, env.example",
+    "docker-compose.yml": "docker-compose.*.yml, Dockerfile*",
+    "README.md": "COMECE-AQUI.md, README-*.md, STATUS-FINAL.md",
+    "tsconfig.json": "tsconfig.*.json"
+  }
+}
