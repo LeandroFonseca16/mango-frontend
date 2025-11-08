@@ -2,6 +2,14 @@
 
 Backend da aplicação **MangoBeat AI** - Plataforma de geração de música com IA e análise de tendências do TikTok.
 
+---
+
+## 🎯 COMECE AQUI
+
+**👉 Primeira vez? Leia:** **[COMECE-AQUI.md](COMECE-AQUI.md)** ← Deploy em 30 minutos!
+
+---
+
 ## ⚡ Quick Start - Deploy em 30 Minutos
 
 **🎯 Quer colocar em produção AGORA?** Leia o **[README-DEPLOY.md](README-DEPLOY.md)** - 30 minutos do código ao ar!
