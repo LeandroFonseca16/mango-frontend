@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -14,49 +7,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Entidade User para autenticação
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
-  avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  // Relacionamentos
-  tracks    Track[]
-  jobs      Job[]
-  
-  @@map("users")
+model api_keys {
+  id         String    @id
+  userId     String
+  key        String    @unique
+  name       String
+  lastUsedAt DateTime?
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime?
+  isActive   Boolean   @default(true)
+  users      users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([key])
+  @@index([userId])
 }
 
-// Entidade Track para músicas
-model Track {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  audioUrl    String?
-  imageUrl    String?
-  genre       String?
-  tags        String[]
-  duration    Int?     // em segundos
-  status      TrackStatus @default(PROCESSING)
-  metadata    Json?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  // Relacionamentos
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  jobs        Job[]
-  
-  @@map("tracks")
+model generated_content {
+  id              String          @id
+  trendingSoundId String
+  trackId         String?
+  aiPrompt        String
+  genreType       MusicGenreType
+  bpm             Int
+  key             String?
+  mood            String
+  duration        Int
+  audioUrl        String?
+  coverImageUrl   String?
+  videoUrl        String?
+  postingStatus   PostingStatus   @default(PENDING)
+  tiktokPostId    String?         @unique
+  caption         String?
+  hashtags        String[]
+  scheduledFor    DateTime?
+  postedAt        DateTime?
+  views           Int             @default(0)
+  likes           Int             @default(0)
+  shares          Int             @default(0)
+  comments        Int             @default(0)
+  engagementRate  Float?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime
+  tracks          tracks?         @relation(fields: [trackId], references: [id])
+  trending_sounds trending_sounds @relation(fields: [trendingSoundId], references: [id], onDelete: Cascade)
+
+  @@index([genreType])
+  @@index([postingStatus])
+  @@index([scheduledFor])
+  @@index([trackId])
+  @@index([trendingSoundId])
 }
 
-// Entidade Job para processamento assíncrono
-model Job {
-  id          String    @id @default(cuid())
+model jobs {
+  id          String    @id
   type        JobType
   status      JobStatus @default(PENDING)
   priority    Int       @default(0)
@@ -66,21 +69,153 @@ model Job {
   attempts    Int       @default(0)
   maxAttempts Int       @default(3)
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  updatedAt   DateTime
   processedAt DateTime?
-  
-  // Relacionamentos
   userId      String?
-  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   trackId     String?
-  track       Track?    @relation(fields: [trackId], references: [id], onDelete: Cascade)
-  
-  @@map("jobs")
+  tracks      tracks?   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  users       users?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// Entidade Trend para tendências do TikTok
-model Trend {
-  id          String   @id @default(cuid())
+model trend_events {
+  id                       String                   @id @default(cuid())
+  platform                 TrendPlatform
+  sourceUrl                String                   @unique
+  title                    String
+  caption                  String
+  hashtags                 String[]
+  views                    BigInt?
+  likes                    BigInt?
+  comments                 BigInt?
+  shares                   BigInt?
+  durationSec              Int?
+  collectedAt              DateTime                 @default(now())
+  isInstrumentalCandidate  Boolean                  @default(false)
+  viralScore               Float                    @default(0)
+  metadata                 Json?
+  features                 trend_features?
+
+  @@index([platform])
+  @@index([viralScore])
+  @@index([collectedAt])
+}
+
+model trend_features {
+  id           String                    @id @default(cuid())
+  trendEventId String                    @unique
+  status       FeatureExtractionStatus   @default(PENDING)
+  bpm          Float?
+  musicalKey   String?
+  energy       Float?
+  loudness     Float?
+  spectralFlux Float?
+  extractedAt  DateTime                  @default(now())
+  errorMessage String?
+  trend_event  trend_events              @relation(fields: [trendEventId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+}
+
+model logs {
+  id        String   @id
+  level     LogLevel @default(INFO)
+  message   String
+  category  String
+  metadata  Json?
+  trackId   String?
+  trendId   String?
+  jobId     String?
+  createdAt DateTime @default(now())
+
+  @@index([category])
+  @@index([createdAt])
+  @@index([level])
+}
+
+model music_genre_presets {
+  id              String            @id
+  genreType       MusicGenreType    @unique
+  name            String
+  description     String
+  bpmMin          Int
+  bpmMax          Int
+  defaultKey      String?
+  defaultMood     String
+  promptTemplate  String
+  popularHashtags String[]
+  targetAudience  String?
+  peakHours       Int[]
+  isActive        Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime
+  trending_sounds trending_sounds[]
+}
+
+model subscriptions {
+  id        String             @id
+  userId    String
+  plan      SubscriptionPlan   @default(FREE)
+  status    SubscriptionStatus @default(ACTIVE)
+  startDate DateTime           @default(now())
+  endDate   DateTime?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime
+  users     users              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([userId])
+}
+
+model tracks {
+  id                String              @id
+  title             String
+  description       String?
+  audioUrl          String?
+  imageUrl          String?
+  genre             String?
+  tags              String[]
+  duration          Int?
+  status            TrackStatus         @default(PROCESSING)
+  metadata          Json?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  userId            String
+  generated_content generated_content[]
+  jobs              jobs[]
+  users             users               @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model trending_sounds {
+  id                  String               @id
+  genrePresetId       String?
+  tiktokSoundId       String?              @unique
+  soundName           String
+  artistName          String?
+  soundUrl            String?
+  bpm                 Int?
+  key                 String?
+  mood                String?
+  duration            Int?
+  audioFeatures       Json?
+  videoCount          Int                  @default(0)
+  viewsEstimate       BigInt?
+  growthRate          Float?
+  status              TrendStatus          @default(DISCOVERED)
+  viralScore          Float?
+  isProcessed         Boolean              @default(false)
+  discoveredAt        DateTime             @default(now())
+  processedAt         DateTime?
+  generated_content   generated_content[]
+  music_genre_presets music_genre_presets? @relation(fields: [genrePresetId], references: [id])
+
+  @@index([discoveredAt])
+  @@index([genrePresetId])
+  @@index([status])
+  @@index([viralScore])
+}
+
+model trends {
+  id          String   @id
   hashtag     String   @unique
   title       String
   description String?
@@ -90,16 +225,81 @@ model Trend {
   isActive    Boolean  @default(true)
   metadata    Json?
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  @@map("trends")
+  updatedAt   DateTime
 }
 
-// Enums
-enum TrackStatus {
+model usage_tracking {
+  id           String   @id
+  userId       String
+  resourceType String
+  quantity     Int      @default(1)
+  cost         Float?
+  metadata     Json?
+  createdAt    DateTime @default(now())
+  users        users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([resourceType])
+  @@index([userId])
+}
+
+model users {
+  id             String           @id
+  email          String           @unique
+  password       String
+  name           String?
+  avatar         String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime
+  api_keys       api_keys[]
+  jobs           jobs[]
+  subscriptions  subscriptions[]
+  tracks         tracks[]
+  usage_tracking usage_tracking[]
+  webhooks       webhooks[]
+}
+
+model webhook_deliveries {
+  id          String                @id
+  webhookId   String
+  event       WebhookEvent
+  payload     Json
+  response    Json?
+  status      WebhookDeliveryStatus
+  statusCode  Int?
+  attempts    Int                   @default(0)
+  lastAttempt DateTime?
+  createdAt   DateTime              @default(now())
+  webhooks    webhooks              @relation(fields: [webhookId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([webhookId])
+}
+
+model webhooks {
+  id                 String               @id
+  userId             String
+  url                String
+  events             WebhookEvent[]
+  secret             String
+  isActive           Boolean              @default(true)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  lastTriggeredAt    DateTime?
+  webhook_deliveries webhook_deliveries[]
+  users              users                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([isActive])
+  @@index([userId])
+}
+
+enum JobStatus {
+  PENDING
   PROCESSING
   COMPLETED
   FAILED
+  CANCELLED
 }
 
 enum JobType {
@@ -109,10 +309,83 @@ enum JobType {
   TIKTOK_UPLOAD
 }
 
-enum JobStatus {
+enum LogLevel {
+  DEBUG
+  INFO
+  WARN
+  ERROR
+}
+
+enum MusicGenreType {
+  PHONK
+  LOFI
+  DRILL
+  HYPERPOP
+  AMBIENT
+  ELECTRONIC
+  HIPHOP
+  RNB
+}
+
+enum PostingStatus {
   PENDING
+  POSTING
+  POSTED
+  FAILED
+}
+
+enum SubscriptionPlan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+  PAST_DUE
+}
+
+enum TrackStatus {
   PROCESSING
   COMPLETED
   FAILED
-  CANCELLED
+}
+
+enum TrendStatus {
+  DISCOVERED
+  ANALYZING
+  GENERATING
+  GENERATED
+  POSTED
+  VIRAL
+  FAILED
+}
+
+enum TrendPlatform {
+  TIKTOK
+  YOUTUBE_SHORTS
+}
+
+enum WebhookDeliveryStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  RETRYING
+}
+
+enum WebhookEvent {
+  TRACK_STARTED
+  TRACK_COMPLETED
+  TRACK_FAILED
+  SUBSCRIPTION_CREATED
+  SUBSCRIPTION_UPDATED
+  SUBSCRIPTION_CANCELLED
+}
+
+enum FeatureExtractionStatus {
+  PENDING
+  COMPLETED
+  FAILED
 }

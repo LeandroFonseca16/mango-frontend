@@ -1,0 +1,91 @@
+# Folders# Dependencies
+
+node_modulesnode_modules
+
+.nextnpm-debug.log
+
+yarn-error.log
+
+# Logs# package-lock.json é necessário para npm ci
+
+npm-debug.log*yarn.lock
+
+yarn-debug.log*
+
+yarn-error.log*# Testing
+
+test
+
+# Env filescoverage
+
+.env*.test.ts
+
+.env.local*.spec.ts
+
+.env.*.localjest.config.js
+
+
+
+# Build artifacts# Development
+
+out.vscode
+
+coverage.idea
+
+dist*.swp
+
+*.swo
+
+# Misc*~
+
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+token.txt
+
+# Build
+dist
+build
+*.tsbuildinfo
+
+# Logs
+logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+docs
+*.md
+!prisma/schema.prisma
+
+# CI/CD
+.github
+.gitlab-ci.yml
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Scripts
+*.ps1
+# Permitir docker-entrypoint.sh
+*.sh
+!docker-entrypoint.sh
+
+# Temp
+tmp
+temp
+.cache

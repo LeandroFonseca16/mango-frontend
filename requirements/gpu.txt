@@ -1,0 +1,11 @@
+# GPU-accelerated dependencies (install when CUDA-enabled GPU is available)
+# Torch builds are pinned to CUDA 12.4. Adjust extra-index if you use a different CUDA toolkit.
+--extra-index-url https://download.pytorch.org/whl/cu124
+accelerate>=0.33
+audiocraft>=1.0.0
+onnxruntime-gpu>=1.18
+panns-inference>=1.0
+torch==2.4.1
+torchaudio==2.4.1
+torchvision==0.19.1
+transformers>=4.45

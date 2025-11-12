@@ -1,88 +1,74 @@
-# ============================================
-# STAGE 1: Dependencies
-# ============================================
-FROM node:20-alpine AS dependencies
-
-# Install production dependencies only
-WORKDIR /app
-
-# Copy dependency files
-COPY package*.json ./
-COPY prisma ./prisma/
-COPY prisma.config.ts ./
-
-# Install dependencies
-RUN npm ci --only=production --ignore-scripts && \
-    npm cache clean --force
-
-# ============================================
-# STAGE 2: Builder  
-# ============================================
-FROM node:20-alpine AS builder
-
-WORKDIR /app
-
-# Copy dependency files
-COPY package*.json ./
-COPY prisma ./prisma/
-COPY prisma.config.ts ./
-COPY tsconfig.json ./
-
-# Install all dependencies (including dev)
-RUN npm ci
-
-# Copy source code
-COPY src ./src
-
-# Generate Prisma Client
-RUN npx prisma generate
-
-# Build TypeScript
-RUN npm run build
-
-# ============================================
-# STAGE 3: Production
-# ============================================
-FROM node:20-alpine AS production
-
-# Install security updates
-RUN apk --no-cache upgrade && \
-    apk add --no-cache tini
-
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nestjs -u 1001
+# ==========================================
+# Stage 1: Dependencies
+# ==========================================
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat openssl
 
 WORKDIR /app
 
 # Copy package files
-COPY --chown=nestjs:nodejs package*.json ./
+COPY package.json package-lock.json* ./
+COPY prisma ./prisma/
 
-# Copy production dependencies from dependencies stage
-COPY --chown=nestjs:nodejs --from=dependencies /app/node_modules ./node_modules
+# Install dependencies (include dev deps for build stage)
+RUN npm ci && npm cache clean --force
+RUN npx prisma generate
 
-# Copy Prisma files
-COPY --chown=nestjs:nodejs prisma ./prisma/
-COPY --chown=nestjs:nodejs prisma.config.ts ./
+# ==========================================
+# Stage 2: Builder
+# ==========================================
+FROM node:20-alpine AS builder
+WORKDIR /app
 
-# Copy generated Prisma Client
-COPY --chown=nestjs:nodejs --from=builder /app/generated ./generated
+# Copy dependencies from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-# Copy built application from builder stage
-COPY --chown=nestjs:nodejs --from=builder /app/dist ./dist
+# Set environment variables for build
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 
-# Set user
-USER nestjs
+# Generate Prisma Client
+RUN npx prisma generate
+
+# Build Next.js application
+RUN npm run build
+
+# ==========================================
+# Stage 3: Runner
+# ==========================================
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Set environment
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Copy necessary files from builder
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/prisma ./prisma
+
+# Set correct permissions
+RUN chown -R nextjs:nodejs /app
+
+# Switch to non-root user
+USER nextjs
 
 # Expose port
-EXPOSE 3001
+EXPOSE 3000
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:3001/api/v1/health/live', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
-
-# Use tini to handle signals properly
-ENTRYPOINT ["/sbin/tini", "--"]
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error('Health check failed')})"
 
 # Start application
-CMD ["node", "dist/main"]
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]

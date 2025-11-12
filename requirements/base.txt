@@ -1,0 +1,13 @@
+# Core Python dependencies for Phase 2 (CPU-friendly stack)
+aiohttp>=3.10
+feast>=0.38
+librosa>=0.10
+numpy>=1.26
+pandas>=2.2
+pgvector>=0.2
+psycopg[binary,pool]>=3.2
+requests>=2.32
+scipy>=1.11
+soundfile>=0.12
+tqdm>=4.66
+uvicorn>=0.30
