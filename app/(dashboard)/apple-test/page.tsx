@@ -2,14 +2,13 @@
 
 import { useState } from 'react'
 import { MinimalPlayer } from '@/components/player/MinimalPlayer'
-import { AppleCard, AppleButton, AppleBadge, AppleInput } from '@/components/ui/AppleUI'
+import { AppleCard, AppleButton, AppleBadge } from '@/components/ui/AppleUI'
 import { AppleSpinner, AppleProgress, ApplePulse, AppleSkeleton } from '@/components/ui/AppleLoading'
 import { Music, Play, Heart, Download, Search, Plus, Star, Sparkles, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 export default function AppleTestPage() {
   const [progress, setProgress] = useState(45)
-  const [searchValue, setSearchValue] = useState('')
 
   // Sample audio data (base64 encoded short beep for testing)
   const sampleAudio = "UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA="

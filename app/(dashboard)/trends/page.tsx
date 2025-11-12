@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { TrendingUp, Music, ExternalLink, RefreshCw, Sparkles, Zap, Heart, Radio } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import { AppleCard, AppleButton, AppleBadge } from '@/components/ui/AppleUI'
-import { AppleSpinner } from '@/components/ui/AppleLoading'
 
 interface Trend {
   id: string

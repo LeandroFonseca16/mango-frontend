@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 async function parseBody(request: Request) {
   try {
     return await request.json()
-  } catch (error) {
+  } catch (_error) {
     return {}
   }
 }

@@ -131,7 +131,7 @@ export async function GET(request: NextRequest) {
   })
 }
 
-function getPlatformSpecificData(platform: string, body: any) {
+function getPlatformSpecificData(platform: string, body: Record<string, unknown>) {
   switch (platform) {
     case 'tiktok':
       return {
@@ -169,7 +169,7 @@ function determineBestPostingTime() {
 async function parseBody(request: Request) {
   try {
     return await request.json()
-  } catch (error) {
+  } catch (_error) {
     return {}
   }
 }

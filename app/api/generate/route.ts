@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
 async function parseBody(request: Request) {
   try {
     return await request.json()
-  } catch (error) {
+  } catch (_error) {
     return {}
   }
 }

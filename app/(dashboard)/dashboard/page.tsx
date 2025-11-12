@@ -8,7 +8,6 @@ import {
   Music, 
   TrendingUp, 
   Clock, 
-  Play,
   ArrowRight,
   BarChart3,
   Zap

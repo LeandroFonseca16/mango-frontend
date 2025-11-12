@@ -42,6 +42,7 @@ export function AudioVisualizer({ audioElement, isPlaying, color = '#FF8C00' }: 
 
     // Initialize Web Audio API
     if (!audioContextRef.current) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
     }
 
@@ -57,7 +58,7 @@ export function AudioVisualizer({ audioElement, isPlaying, color = '#FF8C00' }: 
         sourceRef.current = audioContextRef.current.createMediaElementSource(audioElement)
         sourceRef.current.connect(analyserRef.current)
         analyserRef.current.connect(audioContextRef.current.destination)
-      } catch (e) {
+      } catch (_e) {
         // Already connected
       }
     }

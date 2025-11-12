@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { AppleCard, AppleButton, AppleBadge } from '@/components/ui/AppleUI'
-import { AppleProgress } from '@/components/ui/AppleLoading'
+import { AppleCard, AppleButton } from '@/components/ui/AppleUI'
 import { TrendCard } from '@/components/studio/TrendCard'
 import { StudioView } from '@/components/studio/StudioView'
 import { PublishView } from '@/components/studio/PublishView'
@@ -34,7 +33,7 @@ interface Trend {
 
 export default function CreatePage() {
   const [stage, setStage] = useState<CreateStage>('select')
-  const [selectedTrendId, setSelectedTrendId] = useState<string>()
+  const [selectedTrendId, setSelectedTrendId] = useState<string>() // eslint-disable-line @typescript-eslint/no-unused-vars
   const [generationResult, setGenerationResult] = useState<GenerationResult | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
 

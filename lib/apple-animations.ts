@@ -111,11 +111,11 @@ export const createRipple = (event: React.MouseEvent<HTMLElement>) => {
 
 // Parallax scroll effect
 export const useParallax = (speed: number = 0.5) => {
-  if (typeof window === 'undefined') return { y: 0 }
-  
   const [offsetY, setOffsetY] = React.useState(0)
   
   React.useEffect(() => {
+    if (typeof window === 'undefined') return
+    
     const handleScroll = () => setOffsetY(window.pageYOffset)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)

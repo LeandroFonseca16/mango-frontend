@@ -18,7 +18,7 @@ import {
 import { cn } from '@/lib/utils'
 
 interface StudioViewProps {
-  trends: any[]
+  trends: Array<Record<string, unknown>>
   onPublish?: (generationResult: GenerationResult) => void
 }
 
@@ -26,7 +26,7 @@ type StudioStage = 'select' | 'analyze' | 'generate' | 'preview'
 
 export function StudioView({ trends, onPublish }: StudioViewProps) {
   const [currentStage, setCurrentStage] = useState<StudioStage>('select')
-  const [selectedTrendId, setSelectedTrendId] = useState<string>()
+  const [selectedTrendId, setSelectedTrendId] = useState<string>() // eslint-disable-line @typescript-eslint/no-unused-vars
   const [customPrompt, setCustomPrompt] = useState('')
   
   const { analyze, isAnalyzing, result: analysisResult } = useAnalyze()
@@ -126,7 +126,7 @@ export function StudioView({ trends, onPublish }: StudioViewProps) {
               <AnalysisDisplay analysis={analysisResult} />
             ) : (
               <div className="text-sm text-muted-foreground text-center py-8">
-                Clique em "Analisar" na tendência selecionada
+                Clique em &ldquo;Analisar&rdquo; na tendência selecionada
               </div>
             )}
           </CardContent>

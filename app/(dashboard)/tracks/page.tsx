@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { AppleCard, AppleButton, AppleBadge } from '@/components/ui/AppleUI'
-import { Music, Play, Pause, Download, Trash2, Search, Plus, Clock, CheckCircle2, XCircle } from 'lucide-react'
+import { Music, Download, Trash2, Search, Plus, Clock, CheckCircle2, XCircle } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import { MinimalPlayer } from '@/components/player/MinimalPlayer'
 
@@ -23,7 +23,7 @@ type StatusCategory = 'completed' | 'processing' | 'failed'
 export default function TracksPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<StatusCategory | 'all'>('all')
-  const [currentPlaying, setCurrentPlaying] = useState<string | null>(null)
+  const [_currentPlaying, _setCurrentPlaying] = useState<string | null>(null) // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const { data: tracks, isLoading, refetch } = useQuery<Track[]>({
     queryKey: ['tracks', searchQuery, selectedCategory],
@@ -278,8 +278,8 @@ export default function TracksPage() {
                   <MinimalPlayer 
                     source={track.audioUrl.replace('data:audio/wav;base64,', '')}
                     onPlayState={(playing) => {
-                      if (playing) setCurrentPlaying(track.id)
-                      else setCurrentPlaying(null)
+                      if (playing) _setCurrentPlaying(track.id)
+                      else _setCurrentPlaying(null)
                     }}
                   />
                 </div>

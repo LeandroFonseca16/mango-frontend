@@ -46,7 +46,7 @@ export async function POST(request: Request) {
   })
 }
 
-function buildStages(runId: string, trend: any, trendUrl: string) {
+function buildStages(runId: string, trend: Record<string, unknown>, trendUrl: string) {
   const now = Date.now()
   return [
     {
@@ -80,13 +80,13 @@ function buildStages(runId: string, trend: any, trendUrl: string) {
       completedAt: new Date(now - 5200).toISOString(),
       durationMs: 1300,
       output: {
-        bpm: trend.features.bpm,
-        key: trend.features.key,
-        energy: trend.features.energy,
-        loudness: trend.features.loudness,
-        spectralFlux: trend.features.spectralFlux,
-        instrumentTags: trend.features.instrument_tags,
-        sections: trend.features.sections,
+        bpm: (trend.features as Record<string, unknown>)?.bpm,
+        key: (trend.features as Record<string, unknown>)?.key,
+        energy: (trend.features as Record<string, unknown>)?.energy,
+        loudness: (trend.features as Record<string, unknown>)?.loudness,
+        spectralFlux: (trend.features as Record<string, unknown>)?.spectralFlux,
+        instrumentTags: (trend.features as Record<string, unknown>)?.instrument_tags,
+        sections: (trend.features as Record<string, unknown>)?.sections,
       },
     },
     {
@@ -153,7 +153,7 @@ function buildStages(runId: string, trend: any, trendUrl: string) {
 async function parseBody(request: Request) {
   try {
     return await request.json()
-  } catch (error) {
+  } catch (_error) {
     return {}
   }
 }
