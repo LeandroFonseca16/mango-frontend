@@ -1,24 +1,18 @@
 {
-  "name": "mangobeat-nextjs",
+  "name": "mango-frontend",
   "version": "2.0.0",
   "private": true,
-  "description": "MangoBeat AI - Next.js Full-Stack Music Generation Platform",
+  "description": "Mango AI - Next.js Frontend",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LeandroFonseca16/mango-frontend.git"
+  },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:deploy": "prisma migrate deploy",
-    "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts",
-    "postinstall": "prisma generate",
-  "trends:generate-samples": "tsx scripts/trends/generate-sample-audio.ts",
-    "trends:ingest": "tsx scripts/trends/ingest-trends.ts",
-    "trends:features": "tsx scripts/trends/extract-features.ts",
-    "trends:refresh": "npm run trends:ingest && npm run trends:features"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",
