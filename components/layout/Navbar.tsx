@@ -71,9 +71,9 @@ export function Navbar() {
             <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-white dark:bg-muted/20 shadow-lg group-hover:shadow-xl group-hover:shadow-mango-500/30 transition-all duration-200 group-hover:scale-105">
               <MangoIcon className="h-7 w-7" />
             </div>
-            <span className="font-semibold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-mango-500 via-mango-600 to-orange-600 dark:from-mango-400 dark:via-mango-500 dark:to-orange-500">
+            {/* <span className="font-semibold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-mango-500 via-mango-600 to-orange-600 dark:from-mango-400 dark:via-mango-500 dark:to-orange-500">
               Mango
-            </span>
+            </span> */}
           </Link>
 
           {/* Desktop Navigation - Minimalista */}

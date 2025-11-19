@@ -41,6 +41,29 @@ const nextConfig = {
             value: 'origin-when-cross-origin'
           }
         ]
+      },
+      {
+        source: '/outputs/:path*',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'audio/mpeg'
+          },
+          {
+            key: 'Accept-Ranges',
+            value: 'bytes'
+          }
+        ]
+      }
+    ]
+  },
+
+  // Proxy para servir arquivos de áudio do backend
+  async rewrites() {
+    return [
+      {
+        source: '/outputs/:path*',
+        destination: 'http://localhost:3001/outputs/:path*'
       }
     ]
   },

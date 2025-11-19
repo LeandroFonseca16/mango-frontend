@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from './providers'
+import { Toaster } from 'react-hot-toast'
 import './globals.css'
 
 const inter = Inter({
@@ -11,8 +12,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'MangoBeat AI - Music Generation Platform',
-    template: '%s | MangoBeat AI'
+    default: 'mango.',
+    template: '%s | mangodot'
   },
   description: 'Create AI-generated music tracks for TikTok trends and more. Professional music generation powered by advanced AI.',
   keywords: ['AI music', 'music generation', 'TikTok', 'beats', 'AI composition'],
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://mangobeat.ai',
-    title: 'MangoBeat AI - Music Generation Platform',
+    title: 'mangodot',
     description: 'Create AI-generated music tracks for TikTok trends and more.',
     siteName: 'MangoBeat AI',
   },
@@ -49,6 +50,17 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} min-h-screen`}>
         <Providers>
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: '#1a1a1a',
+                color: '#fff',
+                border: '1px solid #333',
+              },
+            }}
+          />
           {children}
         </Providers>
       </body>

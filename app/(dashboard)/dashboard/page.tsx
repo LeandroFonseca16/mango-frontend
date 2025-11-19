@@ -73,10 +73,10 @@ export default function DashboardPage() {
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="space-y-12 animate-slide-in-up">
         {/* Hero Section */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="text-center">
-            <h1 className="text-5xl font-semibold tracking-tight mb-3 bg-clip-text text-transparent bg-gradient-to-r from-mango-500 via-mango-400 to-yellow-500">
-              MangoBeat AI
+            <h1 className="text-9xl font-semibold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-mango-500 via-mango-400 to-yellow-500 leading-normal">
+              mango.
             </h1>
             <p className="text-xl text-muted-foreground">
               Transforme tendências em música viral.
